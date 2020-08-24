@@ -9,11 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      results.belongsTo(models.user);
+      results.belongsTo(models.exercise);
     }
   }
   results.init(
     {
-      result: DataTypes.INTEGER,
+      score: DataTypes.INTEGER,
     },
     {
       sequelize,
