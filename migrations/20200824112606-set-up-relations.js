@@ -20,6 +20,7 @@ module.exports = {
       onDelete: "CASCADE", //Cascade because onDuties is a join table
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeColumn("results", "exerciseId");
     await queryInterface.removeColumn("results", "userId");

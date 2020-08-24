@@ -1,100 +1,73 @@
+const bcrypt = require("bcrypt");
 const { Router } = require("express");
 const { toJWT } = require("../auth/jwt");
-const bcrypt = require("bcrypt");
-const Doctor = require("../models").doctor;
+const authMiddleware = require("../auth/middleware");
+//Models
+const User = require("../models/").user;
 
 const router = new Router();
 
-//TESTING LOGIN
-// router.post('/', async (req, res, next) => {
-//     console.log('testing')
-//     // Here goes the login logic.
-//     try {
-//         //Check for email and password in the json body, allow anybody
-//         //to login and receive a jwt:
-//         const { email, password } = req.body
-//         // console.log('hi')
-//         if (!email || !password) {
-//             res.status(400).send("Please supply a valid email and password")
-//         } else {
-//             res.send({
-//                 jwt: toJWT({ userId: 1 }),
-//             })
-//         }
-//     } catch (e) {
-//         next(e)
-//     }
-// })
-
-// //Password hashed
-router.put("/", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   try {
-    const { email, name, password } = req.body;
-    // get some parameters in the body
-    // check if i got the info i need.
-    if (!email || !name || !password) {
-      return res.status(400).send("Bad request missing parameters");
-    } else {
-      console.log("testinga hashsync", email, name, password);
-      const hashedPassword = bcrypt.hashSync(String(password), 10);
-      //with String the password can also be a number without the ""
-
-      const doctorLogin = await Doctor.create({
-        name,
-        email,
-        password: hashedPassword,
-      });
-      delete doctorLogin.dataValues["password"];
-      res.send(doctorLogin);
-    }
-    // proceed and create user.
-
-    // send back 200 and the email.
-  } catch (e) {
-    next(e);
-  }
-});
-
-//Finalize login endpoint-- Sol: https://github.com/Codaisseur/security-42/blob/master/routers/auth.js
-
-router.post("/", async (req, res, next) => {
-  //login request
-  try {
-    // get email and password from body
-    // check if I got them
     const { email, password } = req.body;
+
     if (!email || !password) {
-      return res.status(400).send("Missing credentials");
-    } else {
-      const doctorsignup = await Doctor.findOne({ where: { email } });
-      console.log("doctor signup", doctorsignup);
-
-      if (!doctorsignup) {
-        console.log("testing", doctorsignup);
-        return res.status(404).send("User not found");
-      } else {
-        console.log("testing this shit", password, doctorsignup.password);
-        const passwordsMatch = bcrypt.compareSync(
-          password,
-          doctorsignup.password
-        );
-        console.log("passwords match?", passwordsMatch);
-
-        if (passwordsMatch) {
-          console.log("testing password");
-          const token = toJWT({ userId: doctorsignup.id }); // => { userId: 2 };
-          console.log("testing token");
-          res.send({ token }); // actually, we have to send back the jwt
-        } else {
-          res.status(401).send("Unauthorized");
-        }
-      }
+      return res
+        .status(400)
+        .send({ message: "Please provide both email and password" });
     }
 
-    // use bcrypt to compare password from request with stored hashed password.
-  } catch (e) {
-    console.log(e);
+    const user = await User.findOne({ where: { email } });
+
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return res.status(400).send({
+        message: "User with that email not found or password incorrect",
+      });
+    }
+
+    delete user.dataValues["password"];
+    const token = toJWT({ userId: user.id });
+    return res.status(200).send({ token, ...user.dataValues });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
   }
-  //Tested with http POST :4005/login name="sara" email="hi" password=b
 });
+
+router.post("/signup", async (req, res) => {
+  const { email, password, name } = req.body;
+
+  if (!email || !password || !name) {
+    return res.status(400).send("Please provide an email, password and a name");
+  }
+
+  try {
+    const newUser = await User.create({
+      email,
+      password: bcrypt.hashSync(password, 10),
+      name,
+    });
+
+    delete newUser.dataValues["password"]; // don't send back the password hash
+
+    const token = toJWT({ userId: newUser.id });
+
+    res.status(201).json({ token, ...newUser.dataValues });
+  } catch (error) {
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res
+        .status(400)
+        .send({ message: "There is an existing account with this email" });
+    }
+    console.log(error);
+
+    return res.status(400).send({ message: "Something went wrong, sorry" });
+  }
+});
+
+router.get("/me", authMiddleware, async (req, res) => {
+  delete req.user.dataValues["password"];
+  res.status(200).send({ ...req.user.dataValues });
+});
+
 module.exports = router;

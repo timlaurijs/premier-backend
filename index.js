@@ -6,6 +6,9 @@ const loggerMiddleWare = require("morgan");
 const corsMiddleWare = require("cors");
 const PORT = process.env.PORT || 4000;
 const authRouter = require("./routers/auth");
+const userRoute = require("./routers/users");
+const resultRoute = require("./routers/result");
+const exerciseRoute = require("./routers/exercises");
 
 const app = express();
 const bodyParserMiddleWare = express.json();
@@ -50,6 +53,9 @@ app.get("/users", async (req, res, next) => {
 
 // Routes
 app.use("/", authRouter);
+app.use("/users", userRoute);
+app.use("/result", resultRoute);
+app.use("/exercise", exerciseRoute); //NOT WORKING
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
