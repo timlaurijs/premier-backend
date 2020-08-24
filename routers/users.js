@@ -1,9 +1,9 @@
-const { Router } = require("express"); //Router class from express
+const { Router } = require("express");
 const router = new Router();
 //Import our model
 const User = require("../models").user;
 
-//Register a GET route that gets all my doctors
+
 
 router.get("/", async (req, res, next) => {
   try {
@@ -14,5 +14,4 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//EXPORT THE ROUTER
 module.exports = router;
