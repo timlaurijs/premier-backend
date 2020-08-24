@@ -1,6 +1,9 @@
 "use strict";
+
 const bcrypt = require("bcrypt");
+
 const SALT_ROUNDS = 10;
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(

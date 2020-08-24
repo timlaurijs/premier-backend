@@ -1,7 +1,10 @@
-const bcrypt = require("bcrypt");
 const { Router } = require("express");
-const { toJWT } = require("../auth/jwt");
+
+//Auth
 const authMiddleware = require("../auth/middleware");
+const bcrypt = require("bcrypt");
+const { toJWT } = require("../auth/jwt");
+
 //Models
 const User = require("../models/").user;
 
@@ -35,7 +38,6 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-
 router.post("/signup", async (req, res) => {
   const { email, password, name } = req.body;
 
@@ -49,7 +51,6 @@ router.post("/signup", async (req, res) => {
       password: bcrypt.hashSync(password, 10),
       name,
     });
-
 
     delete newUser.dataValues["password"]; // don't send back the password hash
 
@@ -66,7 +67,6 @@ router.post("/signup", async (req, res) => {
 
     return res.status(400).send({ message: "Something went wrong, sorry" });
   }
-
 });
 
 router.get("/me", authMiddleware, async (req, res) => {
