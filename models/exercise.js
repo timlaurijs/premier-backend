@@ -9,9 +9,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   exercise.init(
     {
-      answers: DataTypes.BOOLEAN,
-      questions: DataTypes.TEXT,
+      exercise: DataTypes.TEXT,
       description: DataTypes.TEXT,
+      given: DataTypes.STRING,
+      answer: DataTypes.STRING,
     },
     {
       sequelize,

@@ -8,14 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      answers: {
-        type: Sequelize.BOOLEAN,
-      },
-      questions: {
+      exercise: {
         type: Sequelize.TEXT,
       },
       description: {
         type: Sequelize.TEXT,
+      },
+      given: {
+        type: Sequelize.STRING,
+      },
+      answer: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
