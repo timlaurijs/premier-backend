@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       exercise: DataTypes.TEXT,
       description: DataTypes.TEXT,
+      hint: DataTypes.TEXT,
       given: DataTypes.STRING,
       answer: DataTypes.STRING,
     },
