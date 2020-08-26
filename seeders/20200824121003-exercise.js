@@ -6,21 +6,25 @@ module.exports = {
       "exercises",
       [
         {
-          exercise: "Change the 0 so that sum will equal 20.",
-          description: "Add Two Numbers with JavaScript",
-          given: "var sum; sum = 10 + 0; console.log(sum);",
-          answer: "[20]",
+          exercise: "Change the value of myVar so that it equals 9.",
+          description: "Assign a Value to a Variable with JavaScript",
+          hint:
+            "Use console.log(//answer here) to make sure you submit correctly. In JavaScript, you can store a value in a variable with the assignment operator. Example: myVariable = 5;",
+          given: "var myVar;",
+          answer: "[9]",
           userId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           exercise:
-            "We've got const a = 2 and const b = 5. How can we make sure that we get an output of 10?",
-          description: "Adding two variables with JavaScript",
+            "How can we make sure that we get an output of 10, using variables a and b?",
+          description: "Add Two Variables with JavaScript",
+          hint:
+            "Use console.log(//answer here) to make sure you submit correctly. JavaScript uses the + symbol as an addition operator when placed between two numbers.",
           given: "const a = 2; const b = 5;",
           answer: "[10]",
-          userId: 2,
+          userId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -28,31 +32,34 @@ module.exports = {
           exercise:
             "Set remainder equal to the remainder of 11 divided by 3 using the remainder (%) operator.",
           description: "Finding a Remainder in JavaScript",
-          given: "var remainder; remainder = //enter answer here",
+          hint:
+            "Use console.log(//answer here) to make sure you submit correctly. The remainder operator % gives the remainder of the division of two numbers.",
+          given: "var remainder;",
           answer: "[2]",
-          userId: 3,
+          userId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           exercise:
-            "Use the .length property to count the number of characters in the lastName variable and assign it to lastNameLength.",
+            "Use the .length property to count the number of characters in the lastName variable and assign it to a new variable lastNameLength.",
           description: "Find the Length of a String with JavaScript",
-          given:
-            "var lastNameLength = 0; var lastName = 'Lovelace'; lastNameLength = lastName //change lastName ; console.log(lastNameLength)",
+          hint:
+            "Use console.log(//answer here) to make sure you submit correctly. You can find the length of a String value by writing .length after the string variable or string literal.",
+          given: "var lastName = 'Lovelace';",
           answer: "[8]",
-          userId: 4,
+          userId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          exercise:
-            "Change the code to use the ++ operator on myVar to add 2 to myVar.",
+          exercise: "Use the increment operator on myVar to add 1 to myVar.",
           description: "Increment a Number with JavaScript",
-          given:
-            "var myVar = 87; myVar = myVar + 1; //use  ++ operator here; console.log(myVar)",
+          hint:
+            "Use console.log(//answer here) to make sure you submit correctly. You can easily increment or add one to a variable with the ++ operator.",
+          given: "var myVar = 87;",
           answer: "[88]",
-          userId: 4,
+          userId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

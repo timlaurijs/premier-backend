@@ -14,6 +14,9 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
+      hint: {
+        type: Sequelize.TEXT,
+      },
       given: {
         type: Sequelize.STRING,
       },
