@@ -28,6 +28,24 @@ router.patch("/:userId", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.patch("/progress/:userId", authMiddleware, async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.userId);
+    const { score } = req.body;
+    const userToBeUpdated = await User.findByPk(id);
+    if (!userToBeUpdated) {
+      res.status(404).send("User not found");
+    } else {
+      const updated = await userToBeUpdated.update({
+        progress: userToBeUpdated.progress + score,
+      });
+      res.json(updated);
+    }
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.delete("/:userId", authMiddleware, async (req, res, next) => {
   try {
     const id = parseInt(req.params.userId);
