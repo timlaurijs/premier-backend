@@ -51,6 +51,7 @@ router.post("/signup", async (req, res) => {
       email,
       password: bcrypt.hashSync(password, 10),
       name,
+      progress: 0,
       description,
       imageUrl,
     });
