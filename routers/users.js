@@ -32,12 +32,13 @@ router.patch("/progress/:userId", authMiddleware, async (req, res, next) => {
   try {
     const id = parseInt(req.params.userId);
     const { score } = req.body;
+    const scoreInt = parseInt(score);
     const userToBeUpdated = await User.findByPk(id);
     if (!userToBeUpdated) {
       res.status(404).send("User not found");
     } else {
       const updated = await userToBeUpdated.update({
-        progress: userToBeUpdated.progress + score,
+        progress: userToBeUpdated.progress + scoreInt,
       });
       res.json(updated);
     }
